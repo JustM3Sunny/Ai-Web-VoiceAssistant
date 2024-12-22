@@ -6,186 +6,240 @@
     <title>Sunny's AI Voice Assistant</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #000;
-            color: white;
-            margin: 0;
-            padding: 0;
-            
-        }
-        .chat-container {
-            max-width: 400px;
-            margin: 60px auto;
-            padding: 20px;
-            background: #222;
-            border-radius: 15px;
-            height: 415px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-        }
+    font-family: 'Arial', sans-serif;
+    background-color: #000;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
 
-        .chat-message {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-        }
+.chat-container {
+    max-width: 100%;
+    margin: 60px auto;
+    padding: 20px;
+    background: #222;
+    border-radius: 15px;
+    height: 60vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
 
-        .chat-message img {
-            border-radius: 50%;
-            margin-right: 10px;
-        }
+.chat-message {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
 
-        .chat-box {
-            padding: 15px;
-            border-radius: 10px;
-            max-width: 70%;
-            word-wrap: break-word;
-            font-size: 16px;
-            text-align: left;
-            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
-            animation: messageIn 0.5s ease-out;
-        }
+.chat-message img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
 
-        .user-chat {
-            background: #444;
-        }
+.chat-box {
+    padding: 15px;
+    border-radius: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
+    font-size: 16px;
+    text-align: left;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    animation: messageIn 0.5s ease-out;
+}
 
-        .ai-chat {
-            background: #666;
-            margin-left: auto;
-        }
+.user-chat {
+    background: #444;
+}
 
-        .prompt-container {
-            display: flex;
-            justify-content: center;
-            margin: 5.7rem;
-            padding: 2.2rem;
-            background: #222;
-            border-top: 1px solid #333;
-        }
+.ai-chat {
+    background: #666;
+    margin-left: auto;
+}
 
-        #prompt {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background: #444;
-            color: white;
-        }
+.prompt-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background: #222;
+    border-top: 1px solid #333;
+}
 
-        #submit, #voice-btn {
-            padding: 10px;
-            background-color: #666;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+#prompt {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #444;
+    color: white;
+}
 
-        #submit:hover, #voice-btn:hover {
-            background-color: #555;
-        }
+#submit, #voice-btn {
+    padding: 10px;
+    background-color: #666;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-        .voice-wave {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            gap: 8px; /* Increased gap between bars */
-        }
-        
-        .voice-wave span {
-            display: inline-block;
-            width: 8px; /* Increased width of the bars */
-            height: 50px; /* Increased height of the bars */
-            background: rgba(123, 28, 174, 0.8);
-            border-radius: 5px;
-            animation: waveAnimation 1s infinite ease-in-out;
-        }
-        
-        .voice-wave span:nth-child(1) { animation-delay: 0s; }
-        .voice-wave span:nth-child(2) { animation-delay: 0.2s; }
-        .voice-wave span:nth-child(3) { animation-delay: 0.4s; }
-        .voice-wave span:nth-child(4) { animation-delay: 0.6s; }
-        .voice-wave span:nth-child(5) { animation-delay: 0.8s; }
-        
-        @keyframes waveAnimation {
-            0%, 100% {
-                transform: scaleY(0.5); /* Bars shrink to half their size */
-                opacity: 0.7;
-            }
-            50% {
-                transform: scaleY(2); /* Bars grow to twice their size */
-                opacity: 1;
-            }
-        }
-        
+#submit:hover, #voice-btn:hover {
+    background-color: #555;
+}
 
-        .glow {
-            box-shadow: 0 0 20px #666, 0 0 40px #666, 0 0 60px #666;
-        }
+.voice-wave {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    gap: 8px;
+}
 
-        @keyframes messageIn {
-            0% {
-                transform: scale(0.9);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+.voice-wave span {
+    display: inline-block;
+    width: 8px;
+    height: 50px;
+    background: rgba(123, 28, 174, 0.8);
+    border-radius: 5px;
+    animation: waveAnimation 1s infinite ease-in-out;
+}
 
-        /* Navigation Bar */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #222;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
+.voice-wave span:nth-child(1) { animation-delay: 0s; }
+.voice-wave span:nth-child(2) { animation-delay: 0.2s; }
+.voice-wave span:nth-child(3) { animation-delay: 0.4s; }
+.voice-wave span:nth-child(4) { animation-delay: 0.6s; }
+.voice-wave span:nth-child(5) { animation-delay: 0.8s; }
 
-        nav a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
-            font-size: 18px;
-        }
+@keyframes waveAnimation {
+    0%, 100% {
+        transform: scaleY(0.5);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scaleY(2);
+        opacity: 1;
+    }
+}
 
-        nav a:hover {
-            color: #bbb;
-        }
+.glow {
+    box-shadow: 0 0 20px #666, 0 0 40px #666, 0 0 60px #666;
+}
 
-        /* Footer Section */
-        footer {
-            bottom: 10px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 14px;
-            color: white;
-            padding: 10px;
-        }
+@keyframes messageIn {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 
-        footer a {
-            margin: 0 10px;
-            color: white;
-            text-decoration: none;
-        }
+/* Navigation Bar */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #222;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+}
 
-        footer a:hover {
-            color: #bbb;
-        }
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+nav a:hover {
+    color: #bbb;
+}
+
+/* Footer Section */
+footer {
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    padding: 10px;
+}
+
+footer a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #bbb;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .chat-container {
+        height: 50vh; /* Reduced height on mobile */
+        margin-top: 20px;
+    }
+    
+    .chat-box {
+        font-size: 14px; /* Smaller font size on mobile */
+    }
+    
+    #prompt {
+        font-size: 14px; /* Adjust input size */
+    }
+    
+    #submit, #voice-btn {
+        padding: 8px;
+        font-size: 14px; /* Smaller buttons on mobile */
+    }
+    
+    footer {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chat-container {
+        height: 45vh;
+        margin-top: 10px;
+    }
+
+    .voice-wave span {
+        width: 6px; /* Smaller wave bars on smaller devices */
+        height: 40px;
+    }
+    
+    nav a {
+        font-size: 14px; /* Smaller nav links */
+    }
+    
+    #prompt {
+        font-size: 12px; /* Smaller input box font size */
+    }
+
+    #submit, #voice-btn {
+        padding: 6px; /* Smaller button size */
+        font-size: 12px;
+    }
+
+    footer {
+        font-size: 10px; /* Smaller footer text */
+    }
+}
+
     </style>
 </head>
 <body>
