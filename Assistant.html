@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunny's AI Voice Assistant</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: white;
+            margin: 0;
+            padding: 0;
+            
+        }
+
+        .chat-container {
+            max-width: 400px;
+            margin: 60px auto;
+            padding: 20px;
+            background: #222;
+            border-radius: 15px;
+            height: 415px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-message {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .chat-message img {
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .chat-box {
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 70%;
+            word-wrap: break-word;
+            font-size: 16px;
+            text-align: left;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+            animation: messageIn 0.5s ease-out;
+        }
+
+        .user-chat {
+            background: #444;
+        }
+
+        .ai-chat {
+            background: #666;
+            margin-left: auto;
+        }
+
+        .prompt-container {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            background: #222;
+            border-top: 1px solid #333;
+        }
+
+        #prompt {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #444;
+            color: white;
+        }
+
+        #submit, #voice-btn {
+            padding: 10px;
+            background-color: #666;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #submit:hover, #voice-btn:hover {
+            background-color: #555;
+        }
+
+        .voice-wave {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            gap: 8px; /* Increased gap between bars */
+        }
+        
+        .voice-wave span {
+            display: inline-block;
+            width: 8px; /* Increased width of the bars */
+            height: 50px; /* Increased height of the bars */
+            background: rgba(123, 28, 174, 0.8);
+            border-radius: 5px;
+            animation: waveAnimation 1s infinite ease-in-out;
+        }
+        
+        .voice-wave span:nth-child(1) { animation-delay: 0s; }
+        .voice-wave span:nth-child(2) { animation-delay: 0.2s; }
+        .voice-wave span:nth-child(3) { animation-delay: 0.4s; }
+        .voice-wave span:nth-child(4) { animation-delay: 0.6s; }
+        .voice-wave span:nth-child(5) { animation-delay: 0.8s; }
+        
+        @keyframes waveAnimation {
+            0%, 100% {
+                transform: scaleY(0.5); /* Bars shrink to half their size */
+                opacity: 0.7;
+            }
+            50% {
+                transform: scaleY(2); /* Bars grow to twice their size */
+                opacity: 1;
+            }
+        }
+        
+
+        .glow {
+            box-shadow: 0 0 20px #666, 0 0 40px #666, 0 0 60px #666;
+        }
+
+        @keyframes messageIn {
+            0% {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #222;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            color: #bbb;
+        }
+
+        /* Footer Section */
+        footer {
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 14px;
+            color: white;
+            padding: 10px;
+        }
+
+        footer a {
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="chat-container">
+        <div id="greeting"></div>
+    </div>
+
+    <div class="prompt-container">
+        <input type="text" id="prompt" placeholder="Type your message here..." />
+        <button id="submit">Send</button>
+        <button id="voice-btn">🎤</button>
+    </div>
+
+    <div class="voice-wave">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="pulse"></div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Developed with ❤️ by <strong>Sunny</strong></p>
+        <div>
+            <a href="https://www.instagram.com/__justaskcoding__76_/" target="_blank">Instagram</a>
+            <a href="https://x.com/JustM3Sunny" target="_blank">Twitter</a>
+            <a href="https://github.com/JustM3Sunny" target="_blank">GitHub</a>
+            <a href="https://codepen.io/JustM3Sunny" target="_blank">CodePen</a>
+        </div>
+    </footer>
+
+    <script>
+        const Api_Url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCWFRHQ3B9A-wERY9QbggKWHffLeHkAuzg";
+
+        let prompt = document.querySelector("#prompt");
+        let submitbtn = document.querySelector("#submit");
+        let voiceBtn = document.querySelector("#voice-btn");
+        let chatContainer = document.querySelector(".chat-container");
+        let greeting = document.querySelector("#greeting");
+
+        let user = {
+            message: null
+        };
+
+        // Function to create chat box
+        function createChatBox(html, classes) {
+            let div = document.createElement("div");
+            div.innerHTML = html;
+            div.classList.add(classes);
+            return div;
+        }
+
+        // Function to handle AI chat response
+        async function generateResponse(aiChatBox) {
+            let text = aiChatBox.querySelector(".ai-chat");
+            let requestOption = {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    "contents": [
+                        { "parts": [{ "text": user.message }] }
+                    ]
+                })
+            };
+            try {
+                let response = await fetch(Api_Url, requestOption);
+                let data = await response.json();
+                let apiResponse = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
+                text.innerHTML = apiResponse;
+                speakResponse(apiResponse);
+            } catch (error) {
+                console.error("Error:", error);
+                text.innerHTML = "Error: Unable to fetch AI response.";
+            } finally {
+                chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: "smooth" });
+            }
+        }
+
+        // Function to speak the response with voice changer effects
+        function speakResponse(responseText) {
+            const speech = new SpeechSynthesisUtterance(responseText);
+            speech.rate = 1.5; // Speed up speech
+            speech.pitch = 1.5; // Adjust pitch for voice modulation
+            speechSynthesis.speak(speech);
+
+            // Show the sound wave animation
+                       // Hide sound wave and pulse effect after response
+                       speech.onend = () => {
+                        document.querySelector(".sound-wave").style.opacity = 0;
+                        document.querySelector(".sound-wave").style.transform = "scaleX(0)";
+                        document.querySelector(".pulse").style.opacity = 0;
+                    };
+                }
+        
+                // Event listener for the Send button
+                submitbtn.addEventListener("click", () => {
+                    let userMessage = prompt.value.trim();
+                    if (!userMessage) return;
+        
+                    user.message = userMessage;
+        
+                    // Append user's message to chat
+                    let userChatBox = createChatBox(`<div class="chat-box user-chat">${userMessage}</div>`, "chat-message");
+                    chatContainer.appendChild(userChatBox);
+        
+                    // Append AI's placeholder response to chat
+                    let aiChatBox = createChatBox(`<div class="chat-box ai-chat">Thinking...</div>`, "chat-message");
+                    chatContainer.appendChild(aiChatBox);
+        
+                    chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: "smooth" });
+        
+                    // Clear input field and generate response
+                    prompt.value = "";
+                    generateResponse(aiChatBox);
+                });
+        
+                // Voice input feature
+                voiceBtn.addEventListener("click", () => {
+                    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                    recognition.lang = "en-US";
+        
+                    recognition.start();
+        
+                    // While recording
+                    recognition.onstart = () => {
+                        document.querySelector(".pulse").style.opacity = 1;
+                    };
+        
+                    // After recording is done
+                    recognition.onresult = (event) => {
+                        let transcript = event.results[0][0].transcript;
+                        prompt.value = transcript;
+                        document.querySelector(".pulse").style.opacity = 0;
+                    };
+        
+                    // If recognition ends
+                    recognition.onend = () => {
+                        document.querySelector(".pulse").style.opacity = 0;
+                    };
+        
+                    // If there's an error
+                    recognition.onerror = (error) => {
+                        console.error("Voice recognition error:", error);
+                        document.querySelector(".pulse").style.opacity = 0;
+                    };
+                });
+        
+                // Initial greeting for the assistant
+                window.addEventListener("load", () => {
+                    let greetingMessage = "Hi! I'm your AI assistant. How can I help you today?";
+                    let greetingBox = createChatBox(`<div class="chat-box ai-chat">${greetingMessage}</div>`, "chat-message");
+                    chatContainer.appendChild(greetingBox);
+        
+                    speakResponse(greetingMessage);
+                });
+</script>
+</body>
+</html>
+        
+           
